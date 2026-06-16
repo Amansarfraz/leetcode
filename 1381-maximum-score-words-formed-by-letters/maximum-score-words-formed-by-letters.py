@@ -1,11 +1,5 @@
 class Solution(object):
     def maxScoreWords(self, words, letters, score):
-        """
-        :type words: List[str]
-        :type letters: List[str]
-        :type score: List[int]
-        :rtype: int
-        """
         from collections import Counter
 
         available = Counter(letters)
@@ -28,27 +22,29 @@ class Solution(object):
             if i == n:
                 return 0
 
-            # Skip current word
-            ans = dfs(i + 1, remain)
+            # option 1: skip word
+            best = dfs(i + 1, remain)
 
-            # Take current word if possible
             cnt = word_counts[i]
-            can_take = True
 
+            # check if we can take word
+            can_take = True
             for ch, freq in cnt.items():
                 if remain[ch] < freq:
                     can_take = False
                     break
 
             if can_take:
+                # choose
                 for ch, freq in cnt.items():
                     remain[ch] -= freq
 
-                ans = max(ans, word_scores[i] + dfs(i + 1, remain))
+                best = max(best, word_scores[i] + dfs(i + 1, remain))
 
+                # backtrack
                 for ch, freq in cnt.items():
                     remain[ch] += freq
 
-            return ans
+            return best
 
         return dfs(0, available)
