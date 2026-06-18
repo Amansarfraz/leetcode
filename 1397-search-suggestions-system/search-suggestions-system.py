@@ -1,25 +1,22 @@
+import bisect
+
 class Solution(object):
     def suggestedProducts(self, products, searchWord):
-        """
-        :type products: List[str]
-        :type searchWord: str
-        :rtype: List[List[str]]
-        """
         products.sort()
-        
-        ans = []
+
+        res = []
         prefix = ""
-        
+
         for ch in searchWord:
             prefix += ch
+
+            i = bisect.bisect_left(products, prefix)
+
             cur = []
-            
-            for product in products:
-                if product.startswith(prefix):
-                    cur.append(product)
-                    if len(cur) == 3:
-                        break
-            
-            ans.append(cur)
-        
-        return ans
+            for j in range(i, min(i + 3, len(products))):
+                if products[j].startswith(prefix):
+                    cur.append(products[j])
+
+            res.append(cur)
+
+        return res
