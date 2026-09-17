@@ -5,30 +5,34 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
+
         n = len(arr)
-        INF = float('inf')
-        best = [INF] * n
+
+        # best[i] = minimum length of a valid subarray
+        # ending at or before index i
+        best = [float('inf')] * n
 
         left = 0
-        curr = 0
-        ans = INF
-        min_len = INF
+        current_sum = 0
+        ans = float('inf')
+        min_length = float('inf')
 
         for right in range(n):
-            curr += arr[right]
+            current_sum += arr[right]
 
-            while curr > target:
-                curr -= arr[left]
+            while current_sum > target:
+                current_sum -= arr[left]
                 left += 1
 
-            if curr == target:
+            if current_sum == target:
                 length = right - left + 1
 
-                if left > 0 and best[left - 1] != INF:
+                # Check if there is a previous non-overlapping subarray
+                if left > 0 and best[left - 1] != float('inf'):
                     ans = min(ans, length + best[left - 1])
 
-                min_len = min(min_len, length)
+                min_length = min(min_length, length)
 
-            best[right] = min_len if right == 0 else min(best[right - 1], min_len)
+            best[right] = min_length
 
-        return -1 if ans == INF else ans
+        return -1 if ans == float('inf') else ans
