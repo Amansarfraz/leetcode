@@ -10,10 +10,16 @@ class Solution(object):
         :type y2: int
         :rtype: bool
         """
-        closestX = min(max(xCenter, x1), x2)
-        closestY = min(max(yCenter, y1), y2)
-
-        dx = xCenter - closestX
-        dy = yCenter - closestY
-
-        return dx * dx + dy * dy <= radius * radius
+        # Find the x-coordinate of the nearest point on the rectangle to the circle's center
+        closest_x = max(x1, min(xCenter, x2))
+        
+        # Find the y-coordinate of the nearest point on the rectangle to the circle's center
+        closest_y = max(y1, min(yCenter, y2))
+        
+        # Calculate the squared distance between the circle's center and this closest point
+        distance_x = xCenter - closest_x
+        distance_y = yCenter - closest_y
+        squared_distance = (distance_x ** 2) + (distance_y ** 2)
+        
+        # If the squared distance is less than or equal to the squared radius, they overlap
+        return squared_distance <= (radius ** 2)
