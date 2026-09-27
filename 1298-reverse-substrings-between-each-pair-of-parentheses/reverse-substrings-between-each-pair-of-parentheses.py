@@ -1,19 +1,14 @@
 class Solution(object):
     def reverseParentheses(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        stack = []
-        curr = ""
-
-        for ch in s:
-            if ch == '(':
-                stack.append(curr)
-                curr = ""
-            elif ch == ')':
-                curr = stack.pop() + curr[::-1]
+        """:type s: str :rtype: str"""
+        ans = []
+        for c in s:
+            if c == ')':
+                t = []
+                while ans[-1] != '(':
+                    t.append(ans.pop())
+                ans.pop()  # Remove '('
+                ans.extend(t)
             else:
-                curr += ch
-
-        return curr
+                ans.append(c)
+        return "".join(ans)
