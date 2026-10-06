@@ -4,16 +4,11 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        balance = 0
-        additions = 0
-
-        for ch in s:
-            if ch == '(':
-                balance += 1
-            else:
-                if balance > 0:
-                    balance -= 1
-                else:
-                    additions += 1
-
-        return additions + balance
+        add = 0
+        bal = 0
+        for c in s:
+            bal += 1 if c == '(' else -1
+            if bal == -1:
+                add += 1
+                bal += 1
+        return add + bal
