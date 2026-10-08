@@ -4,28 +4,19 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
+        res = []
+        opened = 0
         
-        result = []
-        balance = 0
-        
-        for ch in s:
-            
-            # Opening bracket
-            if ch == '(':
-                
-                # Not outermost
-                if balance > 0:
-                    result.append(ch)
-                
-                balance += 1
-            
-            # Closing bracket
+        for char in s:
+            if char == '(':
+                # If opened > 0, this '(' is not the outermost one
+                if opened > 0:
+                    res.append(char)
+                opened += 1
             else:
-                
-                balance -= 1
-                
-                # Not outermost
-                if balance > 0:
-                    result.append(ch)
-        
-        return ''.join(result)
+                opened -= 1
+                # If opened > 0 after decrementing, this ')' is not the outermost one
+                if opened > 0:
+                    res.append(char)
+                    
+        return "".join(res)
